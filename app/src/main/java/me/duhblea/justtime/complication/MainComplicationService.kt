@@ -22,14 +22,14 @@ import java.time.LocalDateTime
  * Skeleton for complication data source that returns short text.
  */
 class MainComplicationService : SuspendingComplicationDataSourceService() {
-    private val timeFormat = "hh:mm"
+    private val timeFormat = "h:mm"
 
-    private fun openScreen(): PendingIntent? {
+    private fun launchIntent(): PendingIntent? {
 
-        val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+        val alarmClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
 
         return PendingIntent.getActivity(
-            this, 0, mClockIntent,
+            this, 0, alarmClockIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }
@@ -121,7 +121,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
                             )
                         ).build()
                     )
-                    .setTapAction(openScreen())
+                    .setTapAction(launchIntent())
                     .build()
             }
 
@@ -139,7 +139,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
                             )
                         ).build()
                     )
-                    .setTapAction(openScreen())
+                    .setTapAction(launchIntent())
                     .build()
             }
 
@@ -160,7 +160,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
                             )
                         ).build()
                     )
-                    .setTapAction(openScreen())
+                    .setTapAction(launchIntent())
                     .build()
             }
 
