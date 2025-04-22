@@ -26,7 +26,7 @@ import java.time.temporal.ChronoField
 class MainComplicationService : SuspendingComplicationDataSourceService() {
     companion object {
         private const val TIME_FORMAT = "h:mm"
-        private const val SECONDS_IN_DAY = 86400f
+        private const val MINUTES_IN_DAY = 1440f
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
@@ -68,7 +68,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
             ComplicationType.GOAL_PROGRESS -> {
                 GoalProgressComplicationData.Builder(
                     value = 608f,
-                    targetValue = SECONDS_IN_DAY,
+                    targetValue = MINUTES_IN_DAY,
                     contentDescription = ComplicationText.EMPTY,
                 )
                     .setTitle(null)
@@ -87,7 +87,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
                 RangedValueComplicationData.Builder(
                     value = 608f,
                     min = 0f,
-                    max = SECONDS_IN_DAY,
+                    max = MINUTES_IN_DAY,
                     contentDescription = ComplicationText.EMPTY
                 )
                     .setText(PlainComplicationText.Builder(text = "10:08").build())
@@ -110,8 +110,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
     }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
-        val currentTime = LocalDateTime.now()
-        val progress = currentTime.get(ChronoField.SECOND_OF_DAY).toFloat()
+        val progress = LocalDateTime.now().get(ChronoField.MINUTE_OF_DAY).toFloat()
 
         val currentTimeText = TimeFormatComplicationText.Builder(format = TIME_FORMAT).build()
 
@@ -156,7 +155,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
                 RangedValueComplicationData.Builder(
                     value = progress,
                     min = 0f,
-                    max = SECONDS_IN_DAY,
+                    max = MINUTES_IN_DAY,
                     contentDescription = ComplicationText.EMPTY
                 )
                     .setText(currentTimeText)
@@ -176,7 +175,7 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
             ComplicationType.GOAL_PROGRESS -> {
                 GoalProgressComplicationData.Builder(
                     value = progress,
-                    targetValue = SECONDS_IN_DAY,
+                    targetValue = MINUTES_IN_DAY,
                     contentDescription = ComplicationText.EMPTY,
                 )
                     .setTitle(null)
